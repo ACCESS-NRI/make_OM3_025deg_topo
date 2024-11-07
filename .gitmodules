@@ -1,3 +1,6 @@
 [submodule "domain-tools"]
 	path = domain-tools
 	url = https://github.com/COSIMA/domain-tools.git
+[submodule "topogtools"]
+	path = topogtools
+	url = https://github.com/COSIMA/topogtools.git
