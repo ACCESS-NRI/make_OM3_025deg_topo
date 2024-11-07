@@ -1,0 +1,3 @@
+[submodule "domain-tools"]
+	path = domain-tools
+	url = https://github.com/COSIMA/domain-tools.git
