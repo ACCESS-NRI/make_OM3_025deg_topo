@@ -4,3 +4,6 @@
 [submodule "topogtools"]
 	path = topogtools
 	url = https://github.com/COSIMA/topogtools.git
+[submodule "om3-scripts"]
+	path = om3-scripts
+	url = https://github.com/COSIMA/om3-scripts.git
