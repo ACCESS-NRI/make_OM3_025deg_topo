@@ -21,8 +21,8 @@ ln -sf /g/data/ik11/inputs/GEBCO_2024/GEBCO_2024.nc ./
 # Convert double precision vgrid to single
 ./domain-tools/bin/float_vgrid --vgrid ocean_vgrid.nc --vgrid_type mom6
 
-# Interpolate topography on horizontal grid:
-# ./domain-tools/bin/topogtools gen_topo -i GEBCO_2024.nc -o topog_new.nc --hgrid ocean_hgrid.nc --tripolar --longitude-offset -100 
+Interpolate topography on horizontal grid:
+./domain-tools/bin/topogtools gen_topo -i GEBCO_2024.nc -o topog_new.nc --hgrid ocean_hgrid.nc --tripolar --longitude-offset -100 
 
 # Cut off T cells of size less than 6kms (6000 m)
 ./domain-tools/bin/topogtools min_dy -i topog_new.nc -o topog_new_min_dy.nc --cutoff 6000 --hgrid ocean_hgrid.nc
