@@ -1,3 +1,4 @@
+module purge
 module load intel-compiler 
 module load netcdf
 
