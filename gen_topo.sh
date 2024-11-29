@@ -65,7 +65,7 @@ cp topog_new_fillfraction_edited_deseas_mindepth.nc topog.nc
 MD5SUM_topog=$(md5sum topog.nc | awk '{print $1}')
 
 # Add MD5 checksum as a global attribute to topog.nc
-ncatted -O -h -a md5_checksum,global,a,c,"$MD5SUM_topog" topog.nc
+ncatted -O -h -a md5_checksum,global,a,c,"$MD5SUM_topog" ocean_mask.nc
 
 # Calculate MD5 checksum for ocean_mask.nc
 MD5SUM_mask=$(md5sum ocean_mask.nc | awk '{print $1}')
