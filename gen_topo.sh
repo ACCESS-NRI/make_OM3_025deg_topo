@@ -70,11 +70,11 @@ ncatted -O -h -a md5_checksum,global,a,c,"$MD5SUM_topog" ocean_mask.nc
 # Calculate MD5 checksum for ocean_mask.nc
 MD5SUM_mask=$(md5sum ocean_mask.nc | awk '{print $1}')
 
-# Add MD5 checksum as a global attribute to ocean_mask.nc
-ncatted -O -h -a md5_checksum,global,a,c,"$MD5SUM_mask" ocean_mask.nc
-
 # Make CICE mask file (`kmt.nc`) 
 ncrename -O -v mask,kmt ocean_mask.nc kmt.nc 
+
+# Add MD5 checksum as a global attribute to ocean_mask.nc
+ncatted -O -h -a md5_checksum,global,a,c,"$MD5SUM_mask" kmt.nc
 
 #Move intermediate files to a separate directory
 OUTPUT_DIR="topography_intermediate_output"
