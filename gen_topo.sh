@@ -3,33 +3,31 @@
 # SPDX-License-Identifier: Apache-2.0
 
 #PBS -q normal
-#PBS -l walltime=4:00:00,mem=4GB
+#PBS -l walltime=4:00:00,mem=10GB
 #PBS -l wd
-#PBS -lstorage=gdata/hh5+gdata/ik11
+#PBS -l storage=gdata/hh5+gdata/ik11+gdata/tm70
 
-# Ensure build.sh is executable
-if [ ! -x "./build.sh" ]; then
-  chmod +x ./build.sh
-fi
+# Input files - Using the environment variables passed via -v
+INPUT_HGRID=$INPUT_HGRID
+INPUT_VGRID=$INPUT_VGRID
+INPUT_GBCO=$INPUT_GBCO
+# Minimum allowed y-size for a cell (in m)
+CUTOFF_VALUE=6000
+# Output filenames
+ESMF_MESH_FILE='access-om3-025deg-ESMFmesh.nc'
+ESMF_NO_MASK_MESH_FILE='access-om3-025deg-nomask-ESMFmesh.nc' 
+
 
 # Build domain-tools
 ./build.sh
 
+module purge
 module use /g/data/hh5/public/modules
 module load conda/analysis3
 module load nco
 
-set -x
-set -e
-
-# Using the environment variables passed via -v
-INPUT_HGRID=$INPUT_HGRID
-INPUT_VGRID=$INPUT_VGRID
-INPUT_GBCO=$INPUT_GBCO
-# Define the cutoff value
-CUTOFF_VALUE=6000
-ESMF_MESH_FILE='access-om3-025deg-ESMFmesh.nc'
-ESMF_NO_MASK_MESH_FILE='access-om3-025deg-nomask-ESMFmesh.nc' 
+set -x #print commands to e file
+set -e #exit on error
 
 # Copy and link input files
 cp -L --preserve=timestamps "$INPUT_HGRID" ./ocean_hgrid.nc
@@ -42,7 +40,7 @@ ln -sf "$INPUT_GBCO" ./GEBCO_2024.nc
 # Interpolate topography on horizontal grid:
 ./domain-tools/bin/topogtools gen_topo -i GEBCO_2024.nc -o topog_new.nc --hgrid ocean_hgrid.nc --tripolar --longitude-offset -100 
 
-# Cut off T cells of size less than 6kms (6000 m)
+# Cut off T cells of size less than cutoff value
 ./domain-tools/bin/topogtools min_dy -i topog_new.nc -o topog_new_min_dy.nc --cutoff "$CUTOFF_VALUE" --hgrid ocean_hgrid.nc
 
 # Fill cells that have a sea area fraction smaller than 0.5:
@@ -57,36 +55,27 @@ python ./topogtools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_ne
 # Set maximum/minimum depth
 ./domain-tools/bin/topogtools min_max_depth -i topog_new_fillfraction_edited_deseas.nc -o topog_new_fillfraction_edited_deseas_mindepth.nc --level 4 --vgrid ocean_vgrid.nc --vgrid_type mom6
 
-# Create land/sea mask
+# Name final topog as topo.nc
 cp topog_new_fillfraction_edited_deseas_mindepth.nc topog.nc
+
+#Move intermediate files to a separate directory
+OUTPUT_DIR="topography_intermediate_output"
+mkdir -p $OUTPUT_DIR
+mv topog_new* $OUTPUT_DIR/
+
+# Create land/sea mask
 ./domain-tools/bin/topogtools mask -i topog.nc -o ocean_mask.nc
 
-# Calculate MD5 checksum for topog.nc
-MD5SUM_topog=$(md5sum topog.nc | awk '{print $1}')
-
 # Add MD5 checksum as a global attribute to topog.nc
+MD5SUM_topog=$(md5sum topog.nc | awk '{print $1}')
 ncatted -O -h -a md5_checksum,global,a,c,"$MD5SUM_topog" ocean_mask.nc
-
-# Calculate MD5 checksum for ocean_mask.nc
-MD5SUM_mask=$(md5sum ocean_mask.nc | awk '{print $1}')
 
 # Make CICE mask file (`kmt.nc`) 
 ncrename -O -v mask,kmt ocean_mask.nc kmt.nc 
 
 # Add MD5 checksum as a global attribute to ocean_mask.nc
+MD5SUM_mask=$(md5sum ocean_mask.nc | awk '{print $1}')
 ncatted -O -h -a md5_checksum,global,a,c,"$MD5SUM_mask" kmt.nc
-
-#Move intermediate files to a separate directory
-OUTPUT_DIR="topography_intermediate_output"
-mkdir -p $OUTPUT_DIR
-
-# Move all intermediate files to topography_output directory
-mv topog_new.nc $OUTPUT_DIR/
-mv topog_new_min_dy.nc $OUTPUT_DIR/
-mv topog_new_fillfraction.nc $OUTPUT_DIR/  
-mv topog_new_fillfraction_edited.nc $OUTPUT_DIR/
-mv topog_new_fillfraction_edited_deseas.nc $OUTPUT_DIR/
-mv topog_new_fillfraction_edited_deseas_mindepth.nc $OUTPUT_DIR/
 
 # Create ESMF mesh from hgrid and ocean_mask.nc
 python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_MESH_FILE" --mask-filename=ocean_mask.nc --wrap-lons
