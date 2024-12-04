@@ -17,7 +17,7 @@ esac
 set -x
 set -e
 
-git commit -am "update" || true
+git commit -am "Files used for topo/mask generation on $(date)" || true
 git push || true
 
 ncatted -O -h -a history,global,a,c," | Created on $(date) using https://github.com/ACCESS-NRI/make_OM3_025deg_topo/tree/$(git rev-parse --short HEAD)" topog.nc
