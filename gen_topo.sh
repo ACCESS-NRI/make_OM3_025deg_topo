@@ -18,7 +18,7 @@ ESMF_MESH_FILE='access-om3-025deg-ESMFmesh.nc'
 ESMF_NO_MASK_MESH_FILE='access-om3-025deg-nomask-ESMFmesh.nc' 
 
 
-# Build domain-tools
+# Build bathymetry-tools
 ./build.sh
 
 module purge
@@ -35,25 +35,25 @@ cp -L --preserve=timestamps "$INPUT_VGRID" ./ocean_vgrid.nc
 ln -sf "$INPUT_GBCO" ./GEBCO_2024.nc
 
 # Convert double precision vgrid to single
-./domain-tools/bin/float_vgrid --vgrid ocean_vgrid.nc --vgrid_type mom6
+./bathymetry-tools/bin/float_vgrid --vgrid ocean_vgrid.nc --vgrid_type mom6
 
 # Interpolate topography on horizontal grid:
-./domain-tools/bin/topogtools gen_topo -i GEBCO_2024.nc -o topog_new.nc --hgrid ocean_hgrid.nc --tripolar --longitude-offset -100 
+./bathymetry-tools/bin/topogtools gen_topo -i GEBCO_2024.nc -o topog_new.nc --hgrid ocean_hgrid.nc --tripolar --longitude-offset -100
 
 # Cut off T cells of size less than cutoff value
-./domain-tools/bin/topogtools min_dy -i topog_new.nc -o topog_new_min_dy.nc --cutoff "$CUTOFF_VALUE" --hgrid ocean_hgrid.nc
+./bathymetry-tools/bin/topogtools min_dy -i topog_new.nc -o topog_new_min_dy.nc --cutoff "$CUTOFF_VALUE" --hgrid ocean_hgrid.nc
 
 # Fill cells that have a sea area fraction smaller than 0.5:
-./domain-tools/bin/topogtools fill_fraction -i topog_new_min_dy.nc -o topog_new_fillfraction.nc  --fraction 0.5
+./bathymetry-tools/bin/topogtools fill_fraction -i topog_new_min_dy.nc -o topog_new_fillfraction.nc  --fraction 0.5
 
 # edit_topo.py
-python ./topogtools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_new_fillfraction.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
+python ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_new_fillfraction.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
 
 # Remove seas:
-./domain-tools/bin/topogtools deseas -i topog_new_fillfraction_edited.nc -o topog_new_fillfraction_edited_deseas.nc --grid_type C
+./bathymetry-tools/bin/topogtools deseas -i topog_new_fillfraction_edited.nc -o topog_new_fillfraction_edited_deseas.nc --grid_type C
 
 # Set maximum/minimum depth
-./domain-tools/bin/topogtools min_max_depth -i topog_new_fillfraction_edited_deseas.nc -o topog_new_fillfraction_edited_deseas_mindepth.nc --level 4 --vgrid ocean_vgrid.nc --vgrid_type mom6
+./bathymetry-tools/bin/topogtools min_max_depth -i topog_new_fillfraction_edited_deseas.nc -o topog_new_fillfraction_edited_deseas_mindepth.nc --level 4 --vgrid ocean_vgrid.nc --vgrid_type mom6
 
 # Name final topog as topo.nc
 cp topog_new_fillfraction_edited_deseas_mindepth.nc topog.nc
@@ -71,7 +71,7 @@ mkdir -p $OUTPUT_DIR
 mv topog_new* $OUTPUT_DIR/
 
 # Create land/sea mask
-./domain-tools/bin/topogtools mask -i topog.nc -o ocean_mask.nc
+./bathymetry-tools/bin/topogtools mask -i topog.nc -o ocean_mask.nc
 
 # Add MD5 checksum as a global attribute to topog.nc
 MD5SUM_topog=$(md5sum topog.nc | awk '{print $1}')

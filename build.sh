@@ -1,13 +1,13 @@
 # Copyright 2024 ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
 # SPDX-License-Identifier: Apache-2.0
 # 
-# Build domain-tools executables
+# Build bathymetry-tools executables
 
 module purge
 module load intel-compiler 
 module load netcdf
 
-cd ./domain-tools/
+cd ./bathymetry-tools/
 
 
 # Check if the build directory exists before cleaning
