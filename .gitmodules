@@ -1,9 +1,6 @@
-[submodule "domain-tools"]
-	path = domain-tools
-	url = https://github.com/COSIMA/domain-tools.git
-[submodule "topogtools"]
-	path = topogtools
-	url = https://github.com/COSIMA/topogtools.git
 [submodule "om3-scripts"]
 	path = om3-scripts
 	url = https://github.com/COSIMA/om3-scripts.git
+[submodule "bathymetry-tools"]
+	path = bathymetry-tools
+	url = https://github.com/COSIMA/bathymetry-tools.git

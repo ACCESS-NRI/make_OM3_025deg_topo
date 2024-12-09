@@ -1,0 +1,11 @@
+editTopo.py edits file version 1
+#
+# This file can be used as an argument for editTopo.py --apply
+#
+# created: Fri Nov  1 12:56:59 2024
+# by: ek4684
+# via: editTopo.py /g/data/tm70/ek4684/domain-tools/C-grid-workflow/fill_fraction_0.5/topog_new_fillfraction.nc --overwrite
+#
+#    i    j  old  new
+  1235  737  0.0  65.28469848632812
+  1227  734  0.0  56.118499755859375
