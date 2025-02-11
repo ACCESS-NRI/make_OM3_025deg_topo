@@ -9,3 +9,14 @@ editTopo.py edits file version 1
 #    i    j  old  new
   1235  737  0.0  65.28469848632812
   1227  734  0.0  56.118499755859375
+#
+# Edits to remove some wet points on W Africa coast https://github.com/COSIMA/access-om3/issues/252
+# created: Tue Jan 14 15:19:25 2025
+# by: aek156
+# via: /g/data/tm70/ek4684/topogtools/editTopo.py topog.nc
+#
+#    i    j  old                new
+  1056  631  5.062045574188232  0.0
+  1056  632  5.062045574188232  0.0
+  1056  633  5.062045574188232  0.0
+  1057  633  5.062045574188232  0.0
