@@ -16,7 +16,7 @@ CUTOFF_VALUE=6000
 # Output filenames
 ESMF_MESH_FILE='access-om3-025deg-ESMFmesh.nc'
 ESMF_NO_MASK_MESH_FILE='access-om3-025deg-nomask-ESMFmesh.nc' 
-
+ROF_WEIGHTS_FILE='access-om3-025deg-rof-remap-weights.nc`
 
 # Build bathymetry-tools
 ./build.sh
@@ -90,3 +90,6 @@ python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-fi
 
 # Create ESMF mesh without mask
 python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_NO_MASK_MESH_FILE" --wrap-lons
+
+# Create runoff remapping weights
+python3 ./om3-scripts/mesh_generation/generate_rof_weights.py --mesh_filename="$ESMF_MESH_FILE" --weights_filename="$ROF_WEIGHTS_FILE"
