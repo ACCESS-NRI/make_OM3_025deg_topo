@@ -7,12 +7,12 @@
 module load nco
 module load git
 
-echo "About to commit all changes to git repository and push to remote."
-read -p "Proceed? (y/n) " yesno
-case $yesno in
-   [Yy] ) ;;
-      * ) echo "Cancelled."; exit 0;;
-esac
+# echo "About to commit all changes to git repository and push to remote."
+# read -p "Proceed? (y/n) " yesno
+# case $yesno in
+#    [Yy] ) ;;
+#       * ) echo "Cancelled."; exit 0;;
+# esac
 
 set -x
 set -e
