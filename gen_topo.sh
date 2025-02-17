@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
-# Copyright 2023 ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# Copyright 2025 ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
 # SPDX-License-Identifier: Apache-2.0
 
 #PBS -q normal
 #PBS -l walltime=4:00:00,mem=10GB
 #PBS -l wd
-#PBS -l storage=gdata/hh5+gdata/ik11+gdata/tm70
+#PBS -l storage=gdata/hh5+gdata/ik11+gdata/tm70+gdata/vk83
 
 # Input files - Using the environment variables passed via -v
 INPUT_HGRID=$INPUT_HGRID
