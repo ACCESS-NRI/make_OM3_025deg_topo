@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Copyright 2024 ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
+# Copyright 2025 ACCESS-NRI and contributors. See the top-level COPYRIGHT file for details.
 # SPDX-License-Identifier: Apache-2.0
 #
 # Commit changes and push, then add metadata to note how changes were made 
@@ -7,12 +7,12 @@
 module load nco
 module load git
 
-echo "About to commit all changes to git repository and push to remote."
-read -p "Proceed? (y/n) " yesno
-case $yesno in
-   [Yy] ) ;;
-      * ) echo "Cancelled."; exit 0;;
-esac
+# echo "About to commit all changes to git repository and push to remote."
+# read -p "Proceed? (y/n) " yesno
+# case $yesno in
+#    [Yy] ) ;;
+#       * ) echo "Cancelled."; exit 0;;
+# esac
 
 set -x
 set -e
