@@ -20,3 +20,14 @@ editTopo.py edits file version 1
   1056  632  5.062045574188232  0.0
   1056  633  5.062045574188232  0.0
   1057  633  5.062045574188232  0.0
+# 
+# Edits to remove some wet points on Persian Gulf and Red sea https://github.com/COSIMA/access-om3/issues/286
+# created: Thu Mar 13 12:26:31 2025
+# by: ek4684
+# via: bathymetry-tools/editTopo.py topog.nc
+#
+#    i    j  old                 new
+  1322  660  11.739693641662598  0.0
+  1322  661  12.747864723205566  0.0
+  1322  662  11.92029857635498   0.0
+  1321  662  6.958303928375244   0.0
