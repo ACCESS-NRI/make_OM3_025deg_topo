@@ -53,7 +53,7 @@ python ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_to
 ./bathymetry-tools/bin/topogtools deseas -i topog_new_fillfraction_edited.nc -o topog_new_fillfraction_edited_deseas.nc --grid_type C
 
 # Set maximum/minimum depth
-./bathymetry-tools/bin/topogtools min_max_depth -i topog_new_fillfraction_edited_deseas.nc -o topog_new_fillfraction_edited_deseas_mindepth.nc --level 4 --vgrid ocean_vgrid.nc --vgrid_type mom6
+./bathymetry-tools/bin/topogtools min_max_depth -i topog_new_fillfraction_edited_deseas.nc -o topog_new_fillfraction_edited_deseas_mindepth.nc --level 7 --vgrid ocean_vgrid.nc --vgrid_type mom6
 
 # Name final topog as topo.nc
 cp topog_new_fillfraction_edited_deseas_mindepth.nc topog.nc
