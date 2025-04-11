@@ -23,6 +23,6 @@ This workflow relies on the **hh5 conda environments** for running the scripts a
 
 --- 
 
-```
+```bash
 qsub -v INPUT_HGRID=/g/data/vk83/prerelease/configurations/inputs/access-om3/mom/grids/mosaic/global.025deg/2025.01.30/ocean_hgrid.nc,INPUT_VGRID=/g/data/vk83/prerelease/configurations/inputs/access-om3/mom/grids/vertical/global.025deg/2025.01.30/ocean_vgrid.nc,INPUT_GBCO=/g/data/ik11/inputs/GEBCO_2024/GEBCO_2024.nc -P $PROJECT gen_topo.sh
 ```
