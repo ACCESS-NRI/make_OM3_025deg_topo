@@ -32,7 +32,7 @@ editTopo.py edits file version 1
   1322  662  11.92029857635498   0.0
   1321  662  6.958303928375244   0.0
 #
-# These edits deepen the outlet of the Persian Gulf by copying data from OM2 topography
+# These edits deepen the outlet of the Persian Gulf by copying data from OM2 topography https://github.com/COSIMA/access-om3/issues/286
 # created: Tue Mar 25 10:33:29 2025
 # by: ek4684
 # via: ./bathymetry-tools/editTopo.py --overwrite --apply edit_topog.txt --output topog_new_fillfraction_edited.nc ./topography_intermediate_output/topog_new_fillfraction.nc
