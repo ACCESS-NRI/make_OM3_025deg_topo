@@ -5,7 +5,7 @@
 #PBS -q normal
 #PBS -l walltime=4:00:00,mem=10GB
 #PBS -l wd
-#PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65
+#PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65+gdata/vk83
 
 # Input files - Using the environment variables passed via -v
 INPUT_HGRID=$INPUT_HGRID
