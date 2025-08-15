@@ -85,6 +85,9 @@ ncks -O -x -v geolon_t,geolat_t kmt.nc kmt.nc #drop unused vars
 MD5SUM_mask=$(md5sum ocean_mask.nc | awk '{print $1}')
 ncatted -O -h -a ocean_mask_file,global,a,c,"$(readlink -f ocean_mask.nc) (md5sum:$MD5SUM_mask)" kmt.nc
 
+# Remove the intermediate ocean_mask.nc
+rm -f ocean_mask.nc
+
 # Create ESMF mesh from hgrid and topog.nc
 python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_MESH_FILE" --topog-filename=topog.nc --wrap-lons
 
