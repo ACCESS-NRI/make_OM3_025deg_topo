@@ -73,7 +73,7 @@ mv topog_new* $OUTPUT_DIR/
 # Create land/sea mask - ocean_mask.nc is now an intermediate file used to generate kmt.nc and is not saved in the final output directory.
 ./bathymetry-tools/bin/topogtools mask -i topog.nc -o ocean_mask.nc
 
-# Add MD5 checksum as a global attribute to topog.nc
+# Add MD5 checksum of topog.nc as a global attribute to ocean_mask.nc
 MD5SUM_topog=$(md5sum topog.nc | awk '{print $1}')
 ncatted -O -h -a input_file,global,a,c,"$(readlink -f topog.nc) (md5sum:$MD5SUM_topog)" ocean_mask.nc
 
