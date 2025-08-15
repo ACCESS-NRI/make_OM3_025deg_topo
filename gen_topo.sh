@@ -5,7 +5,7 @@
 #PBS -q normal
 #PBS -l walltime=4:00:00,mem=10GB
 #PBS -l wd
-#PBS -l storage=gdata/hh5+gdata/ik11+gdata/tm70+gdata/vk83
+#PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65
 
 # Input files - Using the environment variables passed via -v
 INPUT_HGRID=$INPUT_HGRID
@@ -22,8 +22,8 @@ ROF_WEIGHTS_FILE='access-om3-025deg-rof-remap-weights.nc'
 ./build.sh
 
 module purge
-module use /g/data/hh5/public/modules
-module load conda/analysis3
+module use /g/data/xp65/public/modules
+module load conda/analysis3-25.05
 module load nco
 
 set -x #print commands to e file
@@ -47,7 +47,7 @@ ln -sf "$INPUT_GBCO" ./GEBCO_2024.nc
 ./bathymetry-tools/bin/topogtools fill_fraction -i topog_new_min_dy.nc -o topog_new_fillfraction.nc  --fraction 0.5
 
 # edit_topo.py
-python ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_new_fillfraction.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
+python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_new_fillfraction.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
 
 # Remove seas:
 ./bathymetry-tools/bin/topogtools deseas -i topog_new_fillfraction_edited.nc -o topog_new_fillfraction_edited_deseas.nc --grid_type C
@@ -70,10 +70,10 @@ OUTPUT_DIR="topography_intermediate_output"
 mkdir -p $OUTPUT_DIR
 mv topog_new* $OUTPUT_DIR/
 
-# Create land/sea mask
+# Create land/sea mask - ocean_mask.nc is now an intermediate file used to generate kmt.nc and is not saved in the final output directory.
 ./bathymetry-tools/bin/topogtools mask -i topog.nc -o ocean_mask.nc
 
-# Add MD5 checksum as a global attribute to topog.nc
+# Add MD5 checksum of topog.nc as a global attribute to ocean_mask.nc
 MD5SUM_topog=$(md5sum topog.nc | awk '{print $1}')
 ncatted -O -h -a input_file,global,a,c,"$(readlink -f topog.nc) (md5sum:$MD5SUM_topog)" ocean_mask.nc
 
@@ -85,8 +85,11 @@ ncks -O -x -v geolon_t,geolat_t kmt.nc kmt.nc #drop unused vars
 MD5SUM_mask=$(md5sum ocean_mask.nc | awk '{print $1}')
 ncatted -O -h -a ocean_mask_file,global,a,c,"$(readlink -f ocean_mask.nc) (md5sum:$MD5SUM_mask)" kmt.nc
 
-# Create ESMF mesh from hgrid and ocean_mask.nc
-python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_MESH_FILE" --mask-filename=ocean_mask.nc --wrap-lons
+# Remove the intermediate ocean_mask.nc
+rm -f ocean_mask.nc
+
+# Create ESMF mesh from hgrid and topog.nc
+python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_MESH_FILE" --topog-filename=topog.nc --wrap-lons
 
 # Create ESMF mesh without mask
 python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_NO_MASK_MESH_FILE" --wrap-lons

@@ -19,7 +19,7 @@ Make 0.25-degree `topog.nc` MOM bathymetry file from the GEBCO 2024 dataset.
 
 ## Note on Dependencies  
 
-This workflow relies on the **hh5 conda environments** for running the scripts and generating the outputs. As long as you are a member of the _hh5_ project, this conda environment is loaded as part of the scripts.
+This workflow relies on the **xp65 conda environments** for running the scripts and generating the outputs. As long as you are a member of the _xp65_ project, this conda environment is loaded as part of the scripts.
 
 --- 
 
