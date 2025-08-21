@@ -14,9 +14,9 @@ INPUT_GBCO=$INPUT_GBCO
 # Minimum allowed y-size for a cell (in m)
 CUTOFF_VALUE=6000
 # Output filenames
-ESMF_MESH_FILE='access-om3-025deg-ESMFmesh.nc'
-ESMF_NO_MASK_MESH_FILE='access-om3-025deg-nomask-ESMFmesh.nc' 
-ROF_WEIGHTS_FILE='access-om3-025deg-rof-remap-weights.nc'
+ESMF_MESH_FILE='access-om3-25km-ESMFmesh.nc'
+ESMF_NO_MASK_MESH_FILE='access-om3-25km-nomask-ESMFmesh.nc'
+ROF_WEIGHTS_FILE='access-om3-25km-rof-remap-weights.nc'
 
 # Build bathymetry-tools
 ./build.sh
