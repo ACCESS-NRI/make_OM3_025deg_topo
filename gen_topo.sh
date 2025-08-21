@@ -47,7 +47,7 @@ ln -sf "$INPUT_GBCO" ./GEBCO_2024.nc
 ./bathymetry-tools/bin/topogtools fill_fraction -i topog_new_min_dy.nc -o topog_new_fillfraction.nc  --fraction 0.5
 
 # edit_topo.py
-python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_new_fillfraction_shifted.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
+python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_new_fillfraction.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
 
 # Remove seas:
 ./bathymetry-tools/bin/topogtools deseas -i topog_new_fillfraction_edited.nc -o topog_new_fillfraction_edited_deseas.nc --grid_type C
