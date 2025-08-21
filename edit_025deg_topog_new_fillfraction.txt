@@ -5,7 +5,7 @@ editTopo.py edits file version 1
 # Grid-landmask alignment
 # created: Thu Aug  21 2025
 # by: minghangli-uni
-# From mosaic grid version: https://github.com/ACCESS-NRI/ocean_model_grid_generator/commit/f95a0c99a32fb1bc51c9d6e400e535780c43ae7e,
+# For grids generated after `2025.05.15/ocean_hgrid.nc` , generated using: https://github.com/ACCESS-NRI/ocean_model_grid_generator/commit/f95a0c99a32fb1bc51c9d6e400e535780c43ae7e or later,
 # the land mask is shifted by +10 indices in j from 1142 to 1152.
 # It preserves the wet cells after the grid shift but provides flexibility for layout options and supports half-resolution diagnostics.
 # More info can be found here: https://github.com/ACCESS-NRI/ocean_model_grid_generator/issues/5
