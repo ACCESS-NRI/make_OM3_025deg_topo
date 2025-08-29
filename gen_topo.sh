@@ -58,11 +58,11 @@ python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_t
 # Name final topog as topo.nc
 cp topog_new_fillfraction_edited_deseas_mindepth.nc topog.nc
 # add name and checksum for input files
-MD5SUM=$(md5sum ocean_hgrid.nc | awk '{print $1}')
+MD5SUM=$(md5sum $INPUT_HGRID | awk '{print $1}')
 ncatted -O -h -a input_file,global,a,c,"$(readlink -f $INPUT_HGRID) (md5sum:$MD5SUM) ; " topog.nc
-MD5SUM=$(md5sum ocean_vgrid.nc | awk '{print $1}')
+MD5SUM=$(md5sum "$INPUT_VGRID" | awk '{print $1}')
 ncatted -O -h -a input_file,global,a,c,"$(readlink -f $INPUT_VGRID) (md5sum:$MD5SUM) ; " topog.nc
-MD5SUM=$(md5sum GEBCO_2024.nc | awk '{print $1}')
+MD5SUM=$(md5sum $INPUT_GBCO | awk '{print $1}')
 ncatted -O -h -a input_file,global,a,c,"$(readlink -f $INPUT_GBCO) (md5sum:$MD5SUM) ; " topog.nc
 
 #Move intermediate files to a separate directory
