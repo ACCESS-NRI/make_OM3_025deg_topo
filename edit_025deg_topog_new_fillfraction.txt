@@ -135,6 +135,7 @@ editTopo.py edits file version 1
  1292   621 35.12212753 138.57469177
  1289   625 459.57540894 246.73709106
 # These edits deepen the Western Baltic Sea by copying data from previous OM2 topography
+# see https://github.com/ACCESS-NRI/access-om3-configs/issues/802
 #    i    j  old                      new
   1163  838  18.377777099609375       35.0
   1163  837  18.33087730407715        35.0
