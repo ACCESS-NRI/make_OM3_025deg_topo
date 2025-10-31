@@ -307,7 +307,7 @@ editTopo.py edits file version 1
   1188  846  29.592096328735352       35.0
   1172  832  34.769519805908203       35.0
   1171  832  25.944284439086914       35.0
-  # These edits fill in the enclosed Sulu Sea basin up to the sill depth of 503m, by copying data from OM2 topography
+# These edits fill in the enclosed Sulu Sea basin up to the sill depth of 503m, by copying data from OM2 topography
 # See https://github.com/ACCESS-NRI/access-om3-configs/issues/625#issuecomment-3453956620
   153   602 694.77703857 503.05209351
   153   601 1285.35229492 503.05209351
