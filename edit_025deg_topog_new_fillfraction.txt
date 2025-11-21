@@ -571,4 +571,14 @@ editTopo.py edits file version 1
   164   609 80.8518066406 503.05200195
   164   610 52.6982765197 503.05200195
   164   611 65.7986984252 503.05200195
-
+# Tweak Indonesian straits, see https://github.com/ACCESS-NRI/access-om3-configs/issues/879
+# Time series of annual mean transport through the Indonesian straits are here https://github.com/ACCESS-Community-Hub/access-om3-paper-1/issues/16
+# These edits narrow and shallow the Lombok passage, and deepen the Leti sill and Makassar to match sill depths
+  143  532  1014.6805419921875  350.0
+  143  533  1306.6669921875     300.0
+  142  533  1051.5372314453125  0.0
+  142  532  489.34942626953125  0.0
+  192  533  744.1826782226562   1250.0
+  193  533  755.1153564453125   1250.0
+  153  554  876.5944213867188   1700.0
+  153  553  814.830810546875    1700.0
