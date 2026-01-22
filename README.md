@@ -20,7 +20,7 @@ Makes 0.25-degree (25km) `topog.nc` MOM6 global bathymetry file for [ACCESS-OM3-
    qsub gen_topo.sh
    ```
 
-3. **Finalize Output Files:**
+3. **Finalise Output Files:**
    Once the output files meet your satisfaction, commit and push the changes, then run `finalise.sh` to add the git commit hash as metadata in the output `.nc` files for provenance.
 
 ## Note on Dependencies  
