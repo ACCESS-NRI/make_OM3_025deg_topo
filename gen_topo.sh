@@ -89,10 +89,10 @@ ncatted -O -h -a ocean_mask_file,global,a,c,"$(readlink -f ocean_mask.nc) (md5su
 rm -f ocean_mask.nc
 
 # Create ESMF mesh from hgrid and topog.nc
-python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_MESH_FILE" --topog-filename=topog.nc --wrap-lons
+python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_MESH_FILE" --topog-filename=topog.nc --wrap-lons True
 
 # Create ESMF mesh without mask
-python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_NO_MASK_MESH_FILE" --wrap-lons
+python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_NO_MASK_MESH_FILE" --wrap-lons True
 
 # Create runoff remapping weights
 python3 ./om3-scripts/mesh_generation/generate_rof_weights.py --mesh_filename="$ESMF_MESH_FILE" --weights_filename="$ROF_WEIGHTS_FILE"
