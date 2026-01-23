@@ -7,12 +7,14 @@
 #PBS -l wd
 #PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65+gdata/vk83
 
-# Input files - Using the environment variables passed via -v
-INPUT_HGRID=$INPUT_HGRID
-INPUT_VGRID=$INPUT_VGRID
-INPUT_GBCO=$INPUT_GBCO
+# Input files
+INPUT_HGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/mosaic/global.25km/2025.09.02/ocean_hgrid.nc'
+INPUT_VGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/vertical/global.25km/2025.03.12/ocean_vgrid.nc'
+INPUT_GEBCO='/g/data/ik11/inputs/GEBCO_2024/GEBCO_2024.nc'
+
 # Minimum allowed y-size for a cell (in m)
 CUTOFF_VALUE=6000
+
 # Output filenames
 ESMF_MESH_FILE='access-om3-25km-ESMFmesh.nc'
 ESMF_NO_MASK_MESH_FILE='access-om3-25km-nomask-ESMFmesh.nc'
@@ -32,7 +34,7 @@ set -e #exit on error
 # Copy and link input files
 cp -L --preserve=timestamps "$INPUT_HGRID" ./ocean_hgrid.nc
 cp -L --preserve=timestamps "$INPUT_VGRID" ./ocean_vgrid.nc
-ln -sf "$INPUT_GBCO" ./GEBCO_2024.nc
+ln -sf "$INPUT_GEBCO" ./GEBCO_2024.nc
 
 # Convert double precision vgrid to single
 ./bathymetry-tools/bin/float_vgrid --vgrid ocean_vgrid.nc --vgrid_type mom6
@@ -62,8 +64,8 @@ MD5SUM=$(md5sum $INPUT_HGRID | awk '{print $1}')
 ncatted -O -h -a input_file,global,a,c,"$(readlink -f $INPUT_HGRID) (md5sum:$MD5SUM) ; " topog.nc
 MD5SUM=$(md5sum "$INPUT_VGRID" | awk '{print $1}')
 ncatted -O -h -a input_file,global,a,c,"$(readlink -f $INPUT_VGRID) (md5sum:$MD5SUM) ; " topog.nc
-MD5SUM=$(md5sum $INPUT_GBCO | awk '{print $1}')
-ncatted -O -h -a input_file,global,a,c,"$(readlink -f $INPUT_GBCO) (md5sum:$MD5SUM) ; " topog.nc
+MD5SUM=$(md5sum $INPUT_GEBCO | awk '{print $1}')
+ncatted -O -h -a input_file,global,a,c,"$(readlink -f $INPUT_GEBCO) (md5sum:$MD5SUM) ; " topog.nc
 
 #Move intermediate files to a separate directory
 OUTPUT_DIR="topography_intermediate_output"
