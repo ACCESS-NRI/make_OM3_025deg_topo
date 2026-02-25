@@ -10,18 +10,18 @@
 #PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65+gdata/vk83+gdata/x77
 
 # Input files
-INPUT_HGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/mosaic/global.25km/2025.09.02/ocean_hgrid.nc'
+INPUT_HGRID='/g/data/tm70/ek4684/100km_grid_input_files/ocean_hgrid.nc'
 INPUT_VGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/vertical/global.25km/2025.03.12/ocean_vgrid.nc'
 INPUT_GEBCO='/g/data/ik11/inputs/GEBCO_2024/GEBCO_2024.nc'
 
 # Minimum allowed y-size for a cell (in m)
-CUTOFF_VALUE=6000
+CUTOFF_VALUE=15400
 
 # Output filenames
 # These need to match finalise.sh
-ESMF_MESH_FILE='access-om3-25km-ESMFmesh.nc'
-ESMF_NO_MASK_MESH_FILE='access-om3-25km-nomask-ESMFmesh.nc'
-ROF_WEIGHTS_FILE='access-om3-25km-rof-remap-weights.nc'
+ESMF_MESH_FILE='access-om3-100km-ESMFmesh.nc'
+ESMF_NO_MASK_MESH_FILE='access-om3-100km-nomask-ESMFmesh.nc'
+ROF_WEIGHTS_FILE='access-om3-100km-rof-remap-weights.nc'
 
 # Build bathymetry-tools
 ./build.sh
@@ -52,7 +52,7 @@ ln -sf "$INPUT_GEBCO" ./GEBCO_2024.nc
 ./bathymetry-tools/bin/topogtools fill_fraction -i topog_new_min_dy.nc -o topog_new_fillfraction.nc  --fraction 0.5
 
 # Apply hand-edits (to ensure Black Sea is connected to Mediterranean)
-python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
+python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_100km_topog.txt --output topog_new_fillfraction_edited.nc topog_new_fillfraction.nc
 
 # Remove seas according to C-grid rules (need this for merge with B-grid version so they both have nans on land)
 ./bathymetry-tools/bin/topogtools deseas -i topog_new_fillfraction_edited.nc -o topog_new_fillfraction_edited_deseas.nc --grid_type C
