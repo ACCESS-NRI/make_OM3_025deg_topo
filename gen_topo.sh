@@ -64,7 +64,7 @@ python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_100km_to
 ncatted -O --output topog_new_fillfraction_B.nc -a grid_type,depth,o,c,B topog_new_fillfraction_edited_deseas.nc
 
 # Apply hand-edits to ensure Mediterranean Sea, Black Sea, Sea of Azov and Gulf of Riga survive deseas with B-grid rules
-python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog_Bgrid.txt --output topog_new_fillfraction_B_edited.nc topog_new_fillfraction_B.nc
+python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_100km_topog_Bgrid.txt --output topog_new_fillfraction_B_edited.nc topog_new_fillfraction_B.nc
 
 # Fix B-grid non-advective coastal cells according to B-grid rules
 ./bathymetry-tools/bin/topogtools fix_nonadvective --coastal-cells --input topog_new_fillfraction_B_edited.nc --output topog_new_fillfraction_B_edited_fixnonadvective.nc --vgrid ocean_vgrid.nc --vgrid_type mom6
@@ -76,7 +76,7 @@ python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_t
 ./combine_by_mask.py topog_new_fillfraction_edited_deseas.nc topog_new_fillfraction_B_edited_fixnonadvective_deseas.nc B_mask.nc topog_new_fillfraction_merged.nc
 
 # Apply hand-edits (again) - WARNING: avoid edits that create B-grid non-advective cells in ice-prone areas!
-python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_025deg_topog.txt --output topog_new_fillfraction_merged_edited.nc topog_new_fillfraction_merged.nc
+python3 ./bathymetry-tools/editTopo.py --overwrite --nogui --apply edit_100km_topog.txt --output topog_new_fillfraction_merged_edited.nc topog_new_fillfraction_merged.nc
 
 # Remove seas according to C-grid rules
 ./bathymetry-tools/bin/topogtools deseas -i topog_new_fillfraction_merged_edited.nc -o topog_new_fillfraction_merged_edited_deseas.nc --grid_type C
