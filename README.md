@@ -48,14 +48,19 @@ The workflow [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_OM3_025deg_topo/
 5. **Fix problems (if any)**
 
    Since all outputs are generated from `topog.nc`, problems in any of the outputs can generally be fixed by altering the edits applied as part of generating `topog.nc` in the workflow. There are two resolution-specific files containing lists of edits, which are applied by `editTopo.py` in [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_OM3_025deg_topo/blob/main/gen_topo.sh):
-   - For 25km: `edit_025deg_topog.txt` is applied twice, once to the precursor to the B- and C-grid files which are later merged, and then again to the merged file. `edit_025deg_topog_Bgrid.txt` is applied only to the B-grid file prior to merging but after the first application of `edit_025deg_topog.txt`.
-   - For 100km: `edit_100km_topog.txt` is applied twice, and `edit_100km_topog_Bgrid.txt` is applied only to the B-grid branch prior to merging.
+   - edit_025deg_topog.txt is applied twice, once to the precursor to the B- and C-grid files which are later merged, and then again to the merged file.  
+   - edit_025deg_topog_Bgrid.txt is applied only to the B-grid file prior to merging but after the first application of edit_025deg_topog.txt. This should apply fixes that are suitable for a global B-grid, e.g. to open the Bosphorus so the Black Sea is retained.
+   - For the 100 km workflow, the same procedure is used, but with the corresponding edit files `edit_100km_topog.txt` and `edit_100km_topog_Bgrid.txt`.
    - Run `bathymetry-tools/editTopo.py` on the appropriate intermediate files to generate new lists of edits which can be appended (with explanatory comments) to the relevant edit file for your chosen resolution.
    - Return to step 3 to check that the updated workflow does what you want.
 
 6. **Finalise Output Files**
 
-   Once the output files meet your satisfaction, commit and push the changes, then run `finalise.sh` with the same resolution to add the git commit hash as metadata in the output `.nc` files for provenance.
+   Once the output files meet your satisfaction, commit and push the changes, then run `finalise.sh` with the same resolution to add the git commit hash as metadata in the output `.nc` files for provenance. A positional argument specifying the resolution is required:
+  ```bash
+   ./finalise.sh 25km
+   ./finalise.sh 100km
+   ```
 
 ## Note on Dependencies  
 
