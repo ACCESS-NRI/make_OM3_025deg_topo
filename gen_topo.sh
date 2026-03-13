@@ -12,7 +12,6 @@
 DEFAULT_RESOLUTION="${DEFAULT_RESOLUTION:-25km}"
 RESOLUTION_INPUT="${1:-${RESOLUTION:-$DEFAULT_RESOLUTION}}"
 INPUT_GEBCO='/g/data/ik11/inputs/GEBCO_2024/GEBCO_2024.nc'
-B_MASK_FILE='B_mask.nc'
 
 usage() {
     echo "Usage: $0 [25km|100km]" >&2
@@ -31,6 +30,7 @@ case "$(printf '%s' "$RESOLUTION_INPUT" | tr '[:upper:]' '[:lower:]')" in
         RESOLUTION='25km'
         INPUT_HGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/mosaic/global.25km/2025.09.02/ocean_hgrid.nc'
         INPUT_VGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/vertical/global.25km/2025.03.12/ocean_vgrid.nc'
+        B_MASK_FILE='B_mask.nc'
         CUTOFF_VALUE=6000
         ESMF_MESH_FILE='access-om3-25km-ESMFmesh.nc'
         ESMF_NO_MASK_MESH_FILE='access-om3-25km-nomask-ESMFmesh.nc'
@@ -42,6 +42,7 @@ case "$(printf '%s' "$RESOLUTION_INPUT" | tr '[:upper:]' '[:lower:]')" in
         RESOLUTION='100km'
         INPUT_HGRID='/g/data/vk83/prerelease/configurations/inputs/access-om3/mom/grids/mosaic/global.100km/2026.03.13/ocean_hgrid.nc'
         INPUT_VGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/vertical/global.25km/2025.03.12/ocean_vgrid.nc'
+        B_MASK_FILE='B_mask_100km.nc'
         CUTOFF_VALUE=15400
         ESMF_MESH_FILE='access-om3-100km-ESMFmesh.nc'
         ESMF_NO_MASK_MESH_FILE='access-om3-100km-nomask-ESMFmesh.nc'

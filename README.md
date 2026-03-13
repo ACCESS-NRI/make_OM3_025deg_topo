@@ -25,7 +25,11 @@ The workflow [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_OM3_025deg_topo/
 
    - run `make_B_mask.ipynb` on ARE and check it looks like what you want
    - move `~/B_mask.nc` to topog generation directory so it can be used in workflow
-   - run `finalise_B_mask.sh` to embed its provenance
+   - run `finalise_B_mask.sh` to embed its provenance. A positional argument specifying the resolution is required:
+  ```bash
+   ./finalise_B_mask.sh 25km
+   ./finalise_B_mask.sh 100km
+   ```
 
 3. **Generate Topography**
    Use `./gen_topo.sh` to generate the topography and associated files. The script selects the 25km or 100km workflow from a single `case` block.
