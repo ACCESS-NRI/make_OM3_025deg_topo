@@ -3,26 +3,47 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 # Commit changes and push, then add metadata to note how changes were made
+#
+# Usage:
+#   ./finalise_B_mask.sh 25km
+#   ./finalise_B_mask.sh 100km
 
-echo "About to commit B_mask changes to git repository and push to remote."
-read -p "Was B_mask.nc created by the current version of make_B_mask.ipynb? (y/n) " yesno
-case $yesno in
-   [Yy] ) ;;
-      * ) echo "Cancelled."; exit 0;;
+set -e
+set -x
+
+case "${1:-25km}" in
+  25km)
+    NOTEBOOK="make_B_mask.ipynb"
+    NCFILE="B_mask.nc"
+    LABEL="25km"
+    ;;
+  100km)
+    NOTEBOOK="make_B_mask_100km.ipynb"
+    NCFILE="B_mask_100km.nc"
+    LABEL="100km"
+    ;;
+  *)
+    echo "Usage: $0 [25km|100km]"
+    exit 1
+    ;;
 esac
 
-set -x
-set -e
+echo "About to commit ${LABEL} B_mask changes to git repository and push to remote."
+read -p "Was ${NCFILE} created by the current version of ${NOTEBOOK}? (y/n) " yesno
+case "$yesno" in
+  [Yy]) ;;
+  *) echo "Cancelled."; exit 0 ;;
+esac
 
 module load nco
 module load git
 
-git add make_B_mask.ipynb
-git commit -m "make_B_mask.ipynb on $(date)" || true
+git add "$NOTEBOOK"
+git commit -m "${NOTEBOOK} on $(date)" || true
 git push || true
 
-ncatted -O -h -a history,global,a,c," | Created on $(date) using https://github.com/ACCESS-NRI/make_OM3_025deg_topo/tree/$(git rev-parse --short HEAD)/make_B_mask.ipynb" B_mask.nc
+ncatted -O -h -a history,global,a,c," | Created on $(date) using https://github.com/ACCESS-NRI/make_OM3_025deg_topo/tree/$(git rev-parse --short HEAD)/${NOTEBOOK}" "$NCFILE"
 
-git add B_mask.nc
-git commit -m "B_mask.nc on $(date)" || true
+git add "$NCFILE"
+git commit -m "${NCFILE} on $(date)" || true
 git push || true
