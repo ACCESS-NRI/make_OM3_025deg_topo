@@ -1,6 +1,6 @@
-# make_OM3_025deg_topo
+# make_OM3_topo
 
-Makes resolution-specific `topog.nc` MOM6 global bathymetry files for ACCESS-OM3 topography workflows based on the GEBCO 2024 dataset. The current workflow supports both 0.25-degree (25km) and 100km grids.
+Makes resolution-specific `topog.nc` MOM6 global bathymetry files for ACCESS-OM3 topography workflows based on the GEBCO 2024 dataset. The current workflow supports both 25km and 100km grids.
 
 The workflow [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_OM3_025deg_topo/blob/main/gen_topo.sh) contains many steps, and stores intermediate files in `topography_intermediate_output` so you can check the result of each step. Key stages in the processing are:
 - Interpolate GEBCO onto the model grid, setting each cell's altitude to the mean of the GEBCO data within it and setting cells that contain more than 50% land in GEBCO to 100% land in the model (this rule of thumb gives acceptable results in most places but requires some specific fixes to ensure important straits, sills, etc. are well represented).
@@ -26,10 +26,7 @@ The workflow [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_OM3_025deg_topo/
    - run `make_B_mask.ipynb` on ARE and check it looks like what you want
    - move `~/B_mask.nc` to topog generation directory so it can be used in workflow
    - run `finalise_B_mask.sh` to embed its provenance. A positional argument specifying the resolution is required:
-  ```bash
-   ./finalise_B_mask.sh 25km
-   ./finalise_B_mask.sh 100km
-   ```
+  
 
 3. **Generate Topography**
    Use `./gen_topo.sh` to generate the topography and associated files. The script selects the 25km or 100km workflow from a single `case` block.
@@ -39,9 +36,7 @@ The workflow [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_OM3_025deg_topo/
    - run locally with a positional argument, or submit with `qsub` using `RESOLUTION`:
    ```bash
    ./gen_topo.sh 25km
-   ./gen_topo.sh 100km
-   qsub -v RESOLUTION=25km -P $PROJECT gen_topo.sh
-   qsub -v RESOLUTION=100km -P $PROJECT gen_topo.sh
+      qsub -v RESOLUTION=25km -P $PROJECT gen_topo.sh
    ```
 
 4. **Check the output files look OK**
