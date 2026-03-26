@@ -53,3 +53,7 @@ ncatted -O -h -a history,global,a,c," | Updated on $(date) using https://github.
 ncatted -O -h -a history,global,a,c," | Created on $(date) using https://github.com/ACCESS-NRI/make_OM3_025deg_topo/tree/$(git rev-parse --short HEAD)" $ESMF_MESH_FILE
 ncatted -O -h -a history,global,a,c," | Created on $(date) using https://github.com/ACCESS-NRI/make_OM3_025deg_topo/tree/$(git rev-parse --short HEAD)" $ESMF_NO_MASK_MESH_FILE
 ncatted -O -h -a history,global,a,c," | Created on $(date) using https://github.com/ACCESS-NRI/make_OM3_025deg_topo/tree/$(git rev-parse --short HEAD)" $ROF_WEIGHTS_FILE
+
+for file in topog.nc kmt.nc ocean_vgrid.nc "$ESMF_MESH_FILE" "$ESMF_NO_MASK_MESH_FILE" "$ROF_WEIGHTS_FILE"; do
+    ncatted -O -h -a resolution,global,o,c,"$RESOLUTION" "$file"
+done
