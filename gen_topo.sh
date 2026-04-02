@@ -166,5 +166,22 @@ python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-fi
 # Create ESMF mesh without mask
 python3 ./om3-scripts/mesh_generation/generate_mesh.py --grid-type=mom --grid-filename=ocean_hgrid.nc --mesh-filename="$ESMF_NO_MASK_MESH_FILE" --wrap-lons True
 
+# Get grid dimensions from the MOM supergrid for runoff weights.
+set -- $(python3 - <<'PY'
+from netCDF4 import Dataset
+
+with Dataset("ocean_hgrid.nc") as ds:
+    nx = len(ds.dimensions["nx"])
+    ny = len(ds.dimensions["ny"])
+
+if nx % 2 != 0 or ny % 2 != 0:
+    raise SystemExit(f"Expected even MOM supergrid dimensions, got nx={nx}, ny={ny}")
+
+print(nx // 2, ny // 2)
+PY
+)
+ROF_NX=$1
+ROF_NY=$2
+
 # Create runoff remapping weights
-python3 ./om3-scripts/mesh_generation/generate_rof_weights.py --mesh_filename="$ESMF_MESH_FILE" --weights_filename="$ROF_WEIGHTS_FILE"
+python3 ./om3-scripts/mesh_generation/generate_rof_weights.py --mesh_filename="$ESMF_MESH_FILE" --weights_filename="$ROF_WEIGHTS_FILE" --nx="$ROF_NX" --ny="$ROF_NY"
