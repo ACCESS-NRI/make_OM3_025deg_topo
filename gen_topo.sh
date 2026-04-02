@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 #PBS -q normal
-#PBS -l walltime=1:00:00
+#PBS -l walltime=4:00:00
 #PBS -l ncpus=14
 #PBS -l mem=50GB
 #PBS -l wd
@@ -30,13 +30,13 @@ case "$(printf '%s' "$RESOLUTION_INPUT" | tr '[:upper:]' '[:lower:]')" in
         RESOLUTION='25km'
         INPUT_HGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/mosaic/global.25km/2025.09.02/ocean_hgrid.nc'
         INPUT_VGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/vertical/global.25km/2025.03.12/ocean_vgrid.nc'
-        B_MASK_FILE='B_mask.nc'
+        B_MASK_FILE='B_mask_25km.nc'
         CUTOFF_VALUE=6000
         ESMF_MESH_FILE='access-om3-25km-ESMFmesh.nc'
         ESMF_NO_MASK_MESH_FILE='access-om3-25km-nomask-ESMFmesh.nc'
         ROF_WEIGHTS_FILE='access-om3-25km-rof-remap-weights.nc'
-        EDIT_TOPO_FILE='edit_025deg_topog.txt'
-        EDIT_TOPO_BGRID_FILE='edit_025deg_topog_Bgrid.txt'
+        EDIT_TOPO_FILE='edit_25km_topog.txt'
+        EDIT_TOPO_BGRID_FILE='edit_25km_topog_Bgrid.txt'
         ;;
     100km)
         RESOLUTION='100km'
