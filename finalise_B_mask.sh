@@ -13,8 +13,8 @@ set -x
 
 case "${1:-25km}" in
   25km)
-    NOTEBOOK="make_B_mask.ipynb"
-    NCFILE="B_mask.nc"
+    NOTEBOOK="make_B_mask_25km.ipynb"
+    NCFILE="B_mask_25km.nc"
     LABEL="25km"
     ;;
   100km)
