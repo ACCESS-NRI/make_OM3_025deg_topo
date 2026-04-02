@@ -33,10 +33,10 @@ The workflow [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_OM3_025deg_topo/
 
    - add gdata for your project & working directory to the `#PBS -l storage=` line in `gen_topo.sh`
    - check/adjust the per-resolution configuration block in `gen_topo.sh` and `finalise.sh`
-   - run locally with a positional argument, or submit with `qsub` using `RESOLUTION`:
+   - for smaller cases such as 100km you can run with a positional argument; for 25km submit with qsub using RESOLUTION:
    ```bash
-   ./gen_topo.sh 25km
-      qsub -v RESOLUTION=25km -P $PROJECT gen_topo.sh
+   ./gen_topo.sh 100km
+   qsub -v RESOLUTION=25km -P PROJECT gen_topo.sh
    ```
 
 4. **Check the output files look OK**
