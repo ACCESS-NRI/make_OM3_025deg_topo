@@ -3,11 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 
 #PBS -q normal
-#PBS -l walltime=4:00:00
+#PBS -l walltime=8:00:00
 #PBS -l ncpus=14
 #PBS -l mem=50GB
 #PBS -l wd
-#PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65+gdata/vk83+gdata/x77
+#PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65+gdata/vk83+gdata/x77+gdata/av17
 
 DEFAULT_RESOLUTION="${DEFAULT_RESOLUTION:-25km}"
 RESOLUTION_INPUT="${1:-${RESOLUTION:-$DEFAULT_RESOLUTION}}"
@@ -28,13 +28,14 @@ require_file() {
 case "$(printf '%s' "$RESOLUTION_INPUT" | tr '[:upper:]' '[:lower:]')" in
     25km|025deg|0.25deg)
         RESOLUTION='25km'
-        INPUT_HGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/mosaic/global.25km/2025.09.02/ocean_hgrid.nc'
+        INPUT_HGRID='/g/data/vk83/prerelease/configurations/inputs/access-om3/share/grids/global.25km/2026.05.27/ocean_hgrid.nc'
         INPUT_VGRID='/g/data/vk83/configurations/inputs/access-om3/mom/grids/vertical/global.25km/2025.03.12/ocean_vgrid.nc'
         B_MASK_FILE='B_mask_25km.nc'
         CUTOFF_VALUE=6000
         ESMF_MESH_FILE='access-om3-25km-ESMFmesh.nc'
         ESMF_NO_MASK_MESH_FILE='access-om3-25km-nomask-ESMFmesh.nc'
         ROF_WEIGHTS_FILE='access-om3-25km-rof-remap-weights.nc'
+        ROFI_SPREAD_FILE='access-om3-25km-rofi-climatology.nc'
         EDIT_TOPO_FILE='edit_25km_topog.txt'
         EDIT_TOPO_BGRID_FILE='edit_25km_topog_Bgrid.txt'
         ;;
@@ -47,6 +48,7 @@ case "$(printf '%s' "$RESOLUTION_INPUT" | tr '[:upper:]' '[:lower:]')" in
         ESMF_MESH_FILE='access-om3-100km-ESMFmesh.nc'
         ESMF_NO_MASK_MESH_FILE='access-om3-100km-nomask-ESMFmesh.nc'
         ROF_WEIGHTS_FILE='access-om3-100km-rof-remap-weights.nc'
+        ROFI_SPREAD_FILE='access-om3-25km-rofi-climatology.nc'
         EDIT_TOPO_FILE='edit_100km_topog.txt'
         EDIT_TOPO_BGRID_FILE='edit_100km_topog_Bgrid.txt'
         ;;
@@ -185,3 +187,6 @@ ROF_NY=$2
 
 # Create runoff remapping weights
 python3 ./om3-scripts/mesh_generation/generate_rof_weights.py --mesh_filename="$ESMF_MESH_FILE" --weights_filename="$ROF_WEIGHTS_FILE" --nx="$ROF_NX" --ny="$ROF_NY"
+
+# Create iceberg melt spreading pattern
+python3 ./om3-scripts/rof_pattern_generation/generate_rofi_pattern.py --hgrid-filename=ocean_hgrid.nc --output-filename="$ROFI_SPREAD_FILE" --topog-file=topog.nc

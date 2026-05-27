@@ -39,7 +39,7 @@ The workflow [`gen_topo.sh`](https://github.com/ACCESS-NRI/make_om3_topo/blob/ma
    - for smaller cases such as 100km you can run with a positional argument; for 25km submit with qsub using RESOLUTION:
    ```bash
    ./gen_topo.sh 100km
-   qsub -v RESOLUTION=25km -P PROJECT gen_topo.sh
+   qsub -v RESOLUTION=25km -P $PROJECT gen_topo.sh
    ```
 
 4. **Check the output files look OK**
