@@ -190,3 +190,24 @@ python3 ./om3-scripts/mesh_generation/generate_rof_weights.py --mesh_filename="$
 
 # Create iceberg melt spreading pattern
 python3 ./om3-scripts/rof_pattern_generation/generate_rofi_pattern.py --hgrid-filename=ocean_hgrid.nc --output-filename="$ROFI_SPREAD_FILE" --topog-file=topog.nc
+
+# Generate tidal files
+qsub <<'EOF'
+#!/bin/bash
+#PBS -q normal
+#PBS -N tidal_amp
+#PBS -l walltime=8:00:00
+#PBS -l ncpus=48
+#PBS -l mem=190GB
+#PBS -l wd
+#PBS -l storage=gdata/ik11+gdata/tm70+gdata/xp65+gdata/vk83+gdata/x77+gdata/av17
+
+module purge
+module use /g/data/xp65/public/modules
+module load conda/analysis3-25.11
+
+python3 ./om3-scripts/external_tidal_generation/generate_tide_amplitude.py --hgrid-file=ocean_hgrid.nc --topog-file=topog.nc --method=conservative_normed --data-path=/g/data/ik11/inputs/TPXO10_atlas_v2 --output=tideamp.nc
+
+EOF
+
+bash ./om3-scripts/external_tidal_generation/submit_bottom_roughness.sh -s ./ -r "$RESOLUTION" -p true -g ocean_hgrid.nc -t topog.nc -j ./om3-scripts/external_tidal_generation/pbs_bottom_roughness.pbs
